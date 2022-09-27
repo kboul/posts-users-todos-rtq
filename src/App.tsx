@@ -1,5 +1,12 @@
-function App() {
-  return <div className="font-bold">Hello world</div>;
-}
+import { ApiProvider } from "@reduxjs/toolkit/query/react";
 
-export default App;
+import { Todos } from "./components";
+import { todosSlice } from "./components/Todos/todosSlice";
+
+export default function App() {
+  return (
+    <ApiProvider api={todosSlice}>
+      <Todos />
+    </ApiProvider>
+  );
+}
