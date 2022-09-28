@@ -1,4 +1,5 @@
 import Todo from "./model";
+import { useUpdateTodoMutation } from "./todosSlice";
 
 interface TodosTableProps {
   todos: Todo[];
@@ -17,6 +18,8 @@ const className = {
 };
 
 export default function TodosTable({ todos }: TodosTableProps) {
+  const [updateTodo] = useUpdateTodoMutation();
+
   return (
     <div className={className.tableWrapper}>
       <table className={className.table}>
@@ -37,7 +40,9 @@ export default function TodosTable({ todos }: TodosTableProps) {
                   className={className.input}
                   type="checkbox"
                   checked={todo.completed}
-                  onChange={() => {}}
+                  onChange={(e) =>
+                    updateTodo({ ...todo, completed: e.target.checked })
+                  }
                 />
               </td>
             </tr>
