@@ -1,19 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-import Todo from "./model";
+import Todo from "../../components/Todos/model";
+import { apiSlice } from "./app";
 
 type TodosResponse = Todo[];
 
-const tagTypes = ["Todos"];
-
-export const todosSlice = createApi({
-  reducerPath: "todos",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3500/"
-  }),
-  tagTypes,
-  endpoints: (builder) => ({
-    getTodos: builder.query<TodosResponse, void>({
+export const todosApi = apiSlice.injectEndpoints({
+  endpoints: (build) => ({
+    getTodos: build.query<TodosResponse, void>({
       query: () => "todos",
       transformResponse: (res: Todo[]) => {
         const lastIndex = res.findIndex(
@@ -22,31 +14,31 @@ export const todosSlice = createApi({
         res.unshift(res.splice(lastIndex, 1)[0]);
         return res;
       },
-      providesTags: tagTypes
+      providesTags: ["Todo"]
     }),
-    addTodo: builder.mutation<Todo, Partial<Todo>>({
+    addTodo: build.mutation<Todo, Partial<Todo>>({
       query: (todo: Todo) => ({
         url: "todos",
         method: "POST",
         body: todo
       }),
-      invalidatesTags: tagTypes
+      invalidatesTags: ["Todo"]
     }),
-    updateTodo: builder.mutation({
+    updateTodo: build.mutation({
       query: (todo: Todo) => ({
         url: `todos/${todo.id}`,
         method: "PATCH",
         body: todo
       }),
-      invalidatesTags: tagTypes
+      invalidatesTags: ["Todo"]
     }),
-    deleteTodo: builder.mutation({
+    deleteTodo: build.mutation({
       query: ({ id }: { id: number }) => ({
         url: `todos/${id}`,
         method: "DELETE",
         body: id
       }),
-      invalidatesTags: tagTypes
+      invalidatesTags: ["Todo"]
     })
   })
 });
@@ -56,4 +48,4 @@ export const {
   useAddTodoMutation,
   useUpdateTodoMutation,
   useDeleteTodoMutation
-} = todosSlice;
+} = todosApi;

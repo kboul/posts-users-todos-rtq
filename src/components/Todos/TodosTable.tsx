@@ -1,6 +1,10 @@
 import { ChangeEvent } from "react";
+
 import Todo from "./model";
-import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todosSlice";
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation
+} from "../../app/services/todos";
 
 interface TodosTableProps {
   todos: Todo[];

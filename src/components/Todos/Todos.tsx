@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 
-import { useAddTodoMutation, useGetTodosQuery } from "./todosSlice";
+import { useAddTodoMutation, useGetTodosQuery } from "../../app/services/todos";
 import TodosTable from "./TodosTable";
 
 const className = {

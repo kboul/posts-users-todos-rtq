@@ -1,12 +1,12 @@
-import { ApiProvider } from "@reduxjs/toolkit/query/react";
 import { Routes, BrowserRouter, Route, Navigate } from "react-router-dom";
+import { Provider } from "react-redux";
 
-import { Navbar, Todos } from "./components";
-import { todosSlice } from "./components/Todos/todosSlice";
+import { Navbar, Todos } from "../components";
+import store from "./store";
 
 export default function App() {
   return (
-    <ApiProvider api={todosSlice}>
+    <Provider store={store}>
       <Navbar />
       <BrowserRouter>
         <Routes>
@@ -14,6 +14,6 @@ export default function App() {
           <Route path="*" element={<Navigate to="/todos" replace />} />
         </Routes>
       </BrowserRouter>
-    </ApiProvider>
+    </Provider>
   );
 }
