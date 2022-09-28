@@ -7,7 +7,7 @@ interface TodosTableProps {
 }
 
 const className = {
-  tableWrapper: "overflow-x-auto relative",
+  tableContainer: "overflow-x-auto relative",
   table: "w-full text-sm text-left text-gray-500 dark:text-gray-400",
   thead:
     "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400",
@@ -35,7 +35,7 @@ export default function TodosTable({ todos }: TodosTableProps) {
     deleteTodo({ id: todoId });
 
   return (
-    <div className={className.tableWrapper}>
+    <div className={className.tableContainer}>
       <table className={className.table}>
         <thead className={className.thead}>
           <tr>
