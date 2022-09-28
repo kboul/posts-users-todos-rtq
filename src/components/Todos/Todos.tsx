@@ -5,7 +5,7 @@ import TodosTable from "./TodosTable";
 
 const className = {
   header: "text-xl font-bold my-2",
-  form: "flex flex-col",
+  form: "flex flex-col mt-2",
   content: "flex flex-col",
   loader: "flex h-[100vh] justify-center items-center",
   label: "mb-1 text-xs tracking-wide text-gray-600",
