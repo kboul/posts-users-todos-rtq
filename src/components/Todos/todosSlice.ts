@@ -15,6 +15,13 @@ export const todosSlice = createApi({
   endpoints: (builder) => ({
     getTodos: builder.query<TodosResponse, void>({
       query: () => "todos",
+      transformResponse: (res: Todo[]) => {
+        const lastIndex = res.findIndex(
+          (todo) => todo.id === res[res.length - 1].id
+        );
+        res.unshift(res.splice(lastIndex, 1)[0]);
+        return res;
+      },
       providesTags: tagTypes
     }),
     addTodo: builder.mutation<Todo, Partial<Todo>>({
@@ -34,11 +41,12 @@ export const todosSlice = createApi({
       invalidatesTags: tagTypes
     }),
     deleteTodo: builder.mutation({
-      query: (id: number) => ({
+      query: ({ id }: { id: number }) => ({
         url: `todos/${id}`,
         method: "DELETE",
         body: id
-      })
+      }),
+      invalidatesTags: tagTypes
     })
   })
 });

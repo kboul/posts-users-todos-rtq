@@ -4,11 +4,16 @@ import { useAddTodoMutation, useGetTodosQuery } from "./todosSlice";
 import TodosTable from "./TodosTable";
 
 const className = {
+  header: "text-xl font-bold my-2",
+  form: "flex flex-col",
+  content: "flex flex-col",
+  loader: "flex h-[100vh] justify-center items-center",
   label: "mb-1 text-xs tracking-wide text-gray-600",
   input:
     "text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border w-4/12 py-2 focus:outline-none",
   button:
-    "flex w-4/12 justify-center my-2 text-black text-sm px-4 py-2 border rounded-2xl text-center bg-blue-300 hover:bg-blue-400"
+    "flex w-4/12 justify-center my-2 text-black text-sm px-4 py-2 border rounded-2xl text-center bg-blue-300 hover:bg-blue-400",
+  container: "flex justify-center items-center"
 };
 
 export default function Todos() {
@@ -36,7 +41,7 @@ export default function Todos() {
   };
 
   const newTodoContent = (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
+    <form className={className.form} onSubmit={handleSubmit}>
       <label htmlFor="new-todo" className={className.label}>
         Enter a new todo item
       </label>
@@ -51,22 +56,19 @@ export default function Todos() {
   );
 
   let content;
-  if (isLoading)
-    content = (
-      <p className="flex h-[100vh] justify-center items-center">Loading...</p>
-    );
+  if (isLoading) content = <p className={className.loader}>Loading...</p>;
   if (isSuccess)
     content = (
-      <div className="flex flex-col">
+      <div className={className.content}>
         {newTodoContent}
-        <h1 className="text-xl font-bold my-2">Todo List</h1>
+        <h1 className={className.header}>Todo List</h1>
         <TodosTable todos={todos} />
       </div>
     );
   if (isError) content = error;
 
   return (
-    <div className="flex justify-center items-center">
+    <div className={className.container}>
       <>{content}</>
     </div>
   );
