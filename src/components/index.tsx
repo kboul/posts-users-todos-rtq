@@ -1,1 +1,1 @@
-export { default as Todos } from "./Todos/Todos";
+export { default as Navbar } from "./Navbar";

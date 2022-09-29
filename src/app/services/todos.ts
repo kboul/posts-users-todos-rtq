@@ -1,11 +1,11 @@
-import Todo from "../../components/Todos/model";
+import Todo from "../../pages/Todos/model";
 import { apiSlice } from "./app";
 
 type TodosResponse = Todo[];
 
 export const todosApi = apiSlice.injectEndpoints({
-  endpoints: (build) => ({
-    getTodos: build.query<TodosResponse, void>({
+  endpoints: (builder) => ({
+    getTodos: builder.query<TodosResponse, void>({
       query: () => "todos",
       transformResponse: (res: Todo[]) => {
         const lastIndex = res.findIndex(
@@ -16,7 +16,7 @@ export const todosApi = apiSlice.injectEndpoints({
       },
       providesTags: ["Todo"]
     }),
-    addTodo: build.mutation<Todo, Partial<Todo>>({
+    addTodo: builder.mutation<Todo, Partial<Todo>>({
       query: (todo: Todo) => ({
         url: "todos",
         method: "POST",
@@ -24,7 +24,7 @@ export const todosApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Todo"]
     }),
-    updateTodo: build.mutation({
+    updateTodo: builder.mutation<TodosResponse, Partial<Todo>>({
       query: (todo: Todo) => ({
         url: `todos/${todo.id}`,
         method: "PATCH",
@@ -32,7 +32,7 @@ export const todosApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Todo"]
     }),
-    deleteTodo: build.mutation({
+    deleteTodo: builder.mutation<TodosResponse, { id: number }>({
       query: ({ id }: { id: number }) => ({
         url: `todos/${id}`,
         method: "DELETE",
