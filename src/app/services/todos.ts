@@ -1,9 +1,9 @@
 import Todo from "../../pages/Todos/model";
-import { apiSlice } from "./app";
+import { api } from "./app";
 
 type TodosResponse = Todo[];
 
-export const todosApi = apiSlice.injectEndpoints({
+export const todosApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getTodos: builder.query<TodosResponse, void>({
       query: () => "todos",

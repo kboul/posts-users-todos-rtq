@@ -15,7 +15,7 @@ export default function Navbar() {
             className={className.img}
             alt="Flowbite Logo"
           />
-          <span className={className.logoTitle}>Todos, Posts & Users</span>
+          <span className={className.logoTitle}>Posts, Users & Todos</span>
         </a>
         <button
           data-collapse-toggle="navbar-default"
