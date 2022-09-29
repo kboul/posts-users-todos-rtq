@@ -1,5 +1,5 @@
 import { useGetPostsQuery } from "../../app/services/posts";
-import { truncate } from "../../utils";
+import { formatDate, truncate } from "../../utils";
 import Post from "./model";
 
 const className = {
@@ -7,7 +7,8 @@ const className = {
     "justify-between flex flex-row gap-4 flex-wrap after:content-[''] after:flex-auto p-4",
   card: "relative border border-gray-400 shadow-md bg-white w-[270px] h-[120px] rounded-md p-2 flex flex-col", // two last properties needed to apply the last styles on price to be at the bottom of the card
   title: "font-bold text-center",
-  body: "mx-2 my-2 text-sm"
+  body: "mx-2 my-2 text-sm",
+  date: "text-right text-xs italic"
 };
 
 export default function Posts() {
@@ -28,8 +29,11 @@ export default function Posts() {
           <div className={className.card} key={post.id}>
             <h2 className={className.title}>{truncate(post.title, 20)}</h2>
             <p className={className.body} title={post.body}>
-              {truncate(post.body, 90)}
+              {truncate(post.body, 65)}
             </p>
+            {post?.date && (
+              <span className={className.date}>{formatDate(post?.date)}</span>
+            )}
           </div>
         ))}
       </div>
