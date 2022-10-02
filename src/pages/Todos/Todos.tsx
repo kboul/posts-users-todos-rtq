@@ -1,18 +1,14 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-import { useAddTodoMutation, useGetTodosQuery } from "../../app/services/todos";
+import { Button, Form, Input } from "../../components";
 import TodosTable from "./TodosTable";
+import { useAddTodoMutation, useGetTodosQuery } from "../../app/services/todos";
 
 const className = {
   header: "text-xl font-bold my-2",
   form: "flex flex-col mt-2",
   content: "flex flex-col",
   loader: "flex h-[100vh] justify-center items-center",
-  label: "mb-1 text-xs tracking-wide text-gray-600",
-  input:
-    "text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border w-4/12 py-2 focus:outline-none",
-  button:
-    "flex w-4/12 justify-center my-2 text-black text-sm px-4 py-2 border rounded-2xl text-center bg-blue-300 hover:bg-blue-400",
   container: "flex justify-center items-center"
 };
 
@@ -41,18 +37,16 @@ export default function Todos() {
   };
 
   const newTodoContent = (
-    <form className={className.form} onSubmit={handleSubmit}>
-      <label htmlFor="new-todo" className={className.label}>
-        Enter a new todo item
-      </label>
-      <input
-        className={className.input}
-        onChange={(e) => setNewTodo(e.target.value)}
-        placeholder="Enter a new todo"
+    <Form onSubmit={handleSubmit}>
+      <Input
+        label="todo"
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setNewTodo(e.target.value)
+        }
         value={newTodo}
       />
-      <button className={className.button}>Add</button>
-    </form>
+      <Button label="todo" />
+    </Form>
   );
 
   let content;
