@@ -3,9 +3,12 @@ import { Provider } from "react-redux";
 
 import { Navbar } from "../components";
 import { Posts, Todos, Users } from "../pages";
+import { usersSlice } from "../pages/Users/usersSlice";
 import store from "./store";
 
 export default function App() {
+  store.dispatch(usersSlice.endpoints.getUsers.initiate());
+
   return (
     <Provider store={store}>
       <Navbar />
