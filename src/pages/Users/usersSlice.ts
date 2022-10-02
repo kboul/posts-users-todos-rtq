@@ -1,3 +1,4 @@
+import { createSelector } from "@reduxjs/toolkit";
 import { api } from "../../app/services/app";
 import User from "./model";
 
@@ -12,3 +13,10 @@ export const usersSlice = api.injectEndpoints({
 });
 
 export const { useGetUsersQuery } = usersSlice;
+
+const selectAllUsersResult = usersSlice.endpoints.getUsers.select();
+
+export const selectAllUsers = createSelector(
+  selectAllUsersResult,
+  (usersResult) => usersResult.data
+);
