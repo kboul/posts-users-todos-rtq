@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { useGetPostsQuery } from "../../app/services/posts";
 import { formatDate, truncate } from "../../utils";
@@ -47,7 +48,9 @@ export default function Posts() {
               {truncate(post.body, 50)}
             </p>
             <div className="flex justify-between">
-              <p className={className.postPageLink}>Link</p>
+              <Link to={`/posts/${post.id}`}>
+                <button className={className.postPageLink}>View post</button>
+              </Link>
               {post?.date && (
                 <span className={className.date}>{formatDate(post?.date)}</span>
               )}
