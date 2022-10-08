@@ -11,8 +11,8 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Navbar />
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/posts">
             <Route index element={<Posts />} />
