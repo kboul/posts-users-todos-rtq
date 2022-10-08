@@ -70,6 +70,7 @@ export default function Post({ use }: PostProps) {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setBody(e.target.value)
               }
+              textarea
               value={body}
             />
             <Button label={`${use} post`} />
