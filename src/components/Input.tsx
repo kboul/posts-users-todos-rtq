@@ -11,24 +11,20 @@ interface InputProps {
 }
 
 export default function Input({ label, textarea, ...otherProps }: InputProps) {
+  const commomProps = {
+    className: className.input,
+    placeholder: `Enter a new ${label}`
+  };
+
   return (
     <>
       <label htmlFor="new-item" className={className.label}>
         Enter a new {label}
       </label>
       {textarea ? (
-        <textarea
-          className={className.input}
-          rows={5}
-          placeholder={`Enter a new ${label}`}
-          {...otherProps}
-        />
+        <textarea rows={5} {...commomProps} {...otherProps} />
       ) : (
-        <input
-          className={className.input}
-          placeholder={`Enter a new ${label}`}
-          {...otherProps}
-        />
+        <input {...commomProps} {...otherProps} />
       )}
     </>
   );

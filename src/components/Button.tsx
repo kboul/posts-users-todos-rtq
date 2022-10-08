@@ -5,8 +5,13 @@ const className = {
 
 interface ButtonProps {
   label: string;
+  [key: string]: any;
 }
 
-export default function Button({ label }: ButtonProps) {
-  return <button className={className.button}>{label}</button>;
+export default function Button({ label, ...otherProps }: ButtonProps) {
+  return (
+    <button className={className.button} {...otherProps}>
+      {label}
+    </button>
+  );
 }

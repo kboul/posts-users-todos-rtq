@@ -37,13 +37,15 @@ export default function Post({ use }: PostProps) {
     setBody(post.body);
   }, [post]);
 
+  const buttonDisabled = Boolean(!title || !body);
+
   const handleSumbit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (title && body) {
-      await updatePost({ id: Number(postId), title, body });
-      navigate("/posts");
-    }
+    if (buttonDisabled) return;
+
+    await updatePost({ id: Number(postId), title, body });
+    navigate("/posts");
   };
 
   if (post)
@@ -73,7 +75,7 @@ export default function Post({ use }: PostProps) {
               textarea
               value={body}
             />
-            <Button label={`${use} post`} />
+            <Button disabled={buttonDisabled} label={`${use} post`} />
           </Form>
         </div>
       </>
