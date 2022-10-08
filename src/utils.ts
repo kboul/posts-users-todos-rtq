@@ -1,5 +1,7 @@
 import { parseISO, formatDistanceToNow } from "date-fns";
 
+import User from "./pages/Users/model";
+
 const truncate = (text: string, limit?: number): string => {
   const limitation = limit ?? 110;
   return text.length > limitation
@@ -17,4 +19,12 @@ const formatDate = (timestamp: string): string => {
   return timeAgo;
 };
 
-export { formatDate, truncate };
+const getUserName = (
+  allUsers: User[] | undefined,
+  userId: number
+): string | undefined => {
+  if (!allUsers) return "";
+  return allUsers?.find((user: User) => user.id === userId)?.name;
+};
+
+export { formatDate, getUserName, truncate };

@@ -1,5 +1,3 @@
-import { ChangeEvent } from "react";
-
 const className = {
   label: "mb-1 text-xs tracking-wide text-gray-600",
   input:
@@ -8,11 +6,10 @@ const className = {
 
 interface InputProps {
   label: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  [key: string]: any;
 }
 
-export default function Input({ label, onChange, value }: InputProps) {
+export default function Input({ label, ...otherProps }: InputProps) {
   return (
     <>
       <label htmlFor="new-item" className={className.label}>
@@ -20,9 +17,8 @@ export default function Input({ label, onChange, value }: InputProps) {
       </label>
       <input
         className={className.input}
-        onChange={onChange}
         placeholder={`Enter a new ${label}`}
-        value={value}
+        {...otherProps}
       />
     </>
   );

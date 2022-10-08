@@ -14,6 +14,9 @@ export const postsApi = api.injectEndpoints({
         { type: "Post" as const, id: "LIST" }
       ]
     }),
+    getPost: builder.query({
+      query: (id: number) => `posts/${id}`
+    }),
     addPost: builder.mutation<Post, Partial<Post>>({
       query: (post: Post) => ({
         url: "posts",
@@ -42,6 +45,7 @@ export const postsApi = api.injectEndpoints({
 
 export const {
   useGetPostsQuery,
+  useGetPostQuery,
   useAddPostMutation,
   useUpdatePostMutation,
   useDeletePostMutation

@@ -16,7 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/posts">
             <Route index element={<Posts />} />
-            <Route path=":postId" element={<Post />} />
+            <Route path=":postId" element={<Post use="Edit" />} />
           </Route>
           <Route path="/users" element={<Users />} />
           <Route path="/todos" element={<Todos />} />
