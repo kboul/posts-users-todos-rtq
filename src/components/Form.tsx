@@ -5,13 +5,14 @@ const className = {
 };
 
 interface FormProps {
+  classname?: string;
   children: ReactNode;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }
 
-export default function Form({ children, onSubmit }: FormProps) {
+export default function Form({ children, classname, onSubmit }: FormProps) {
   return (
-    <form className={className.form} onSubmit={onSubmit}>
+    <form className={`${className.form} ${classname}`} onSubmit={onSubmit}>
       {children}
     </form>
   );

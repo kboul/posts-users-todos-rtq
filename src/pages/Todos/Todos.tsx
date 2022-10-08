@@ -5,8 +5,9 @@ import TodosTable from "./TodosTable";
 import { useAddTodoMutation, useGetTodosQuery } from "../../app/services/todos";
 
 const className = {
+  form: "w-6/12",
+  newTodoContainer: "flex justify-center",
   header: "text-xl font-bold my-2",
-  form: "flex flex-col mt-2",
   content: "flex flex-col",
   loader: "flex h-[100vh] justify-center items-center",
   container: "flex justify-center items-center"
@@ -37,16 +38,18 @@ export default function Todos() {
   };
 
   const newTodoContent = (
-    <Form onSubmit={handleSubmit}>
-      <Input
-        label="todo"
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setNewTodo(e.target.value)
-        }
-        value={newTodo}
-      />
-      <Button label="todo" />
-    </Form>
+    <div className={className.newTodoContainer}>
+      <Form classname={className.form} onSubmit={handleSubmit}>
+        <Input
+          label="todo"
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setNewTodo(e.target.value)
+          }
+          value={newTodo}
+        />
+        <Button label="Add todo" />
+      </Form>
+    </div>
   );
 
   let content;
