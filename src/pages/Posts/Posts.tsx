@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { useGetPostsQuery } from "../../app/services/posts";
 import { formatDate, getUserName, truncate } from "../../utils";
-import { selectAllUsers } from "../Users/usersSlice";
+import { useGetUsersQuery } from "../Users/usersSlice";
 import Post from "./model";
 
 const className = {
@@ -25,7 +24,7 @@ export default function Posts() {
     isError,
     error
   } = useGetPostsQuery();
-  const allUsers = useSelector(selectAllUsers);
+  const { data: users } = useGetUsersQuery();
 
   let content;
   if (isLoading) content = <p>Loading..</p>;
@@ -35,13 +34,11 @@ export default function Posts() {
         {posts?.map((post: Post) => (
           <div className={className.card} key={post.id}>
             <p className={className.title} title={post.title}>
-              {truncate(post.title, 20)}
+              {truncate(post.title, 25)}
             </p>
-            {allUsers && (
-              <p className={className.author}>
-                by {getUserName(allUsers, post.userId)}
-              </p>
-            )}
+            <p className={className.author}>
+              by {getUserName(users, post.userId)}
+            </p>
             <p className={className.body} title={post.body}>
               {truncate(post.body, 50)}
             </p>
