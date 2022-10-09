@@ -22,19 +22,17 @@ export default function Post({ use }: PostProps) {
   const { postId } = useParams();
   const navigate = useNavigate();
 
-  console.log(postId);
-
   const allUsers = useSelector(selectAllUsers);
   const { data: post } = useGetPostQuery(Number(postId));
   const [updatePost] = useUpdatePostMutation();
 
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [editPost, setEditPost] = useState({ title: "", body: "" });
+
+  const { title, body } = editPost;
 
   useEffect(() => {
     if (!post) return;
-    setTitle(post.title);
-    setBody(post.body);
+    setEditPost({ title: post.title, body: post.body });
   }, [post]);
 
   const buttonDisabled = Boolean(!title || !body);
@@ -48,6 +46,10 @@ export default function Post({ use }: PostProps) {
     navigate("/posts");
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   if (post)
     return (
       <>
@@ -56,9 +58,8 @@ export default function Post({ use }: PostProps) {
           <Form classname={className.form} onSubmit={handleSumbit}>
             <Input
               label="title"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setTitle(e.target.value)
-              }
+              name="title"
+              onChange={handleChange}
               value={title}
             />
             <Input
@@ -69,9 +70,8 @@ export default function Post({ use }: PostProps) {
             />
             <Input
               label="content"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setBody(e.target.value)
-              }
+              name="body"
+              onChange={handleChange}
               textarea
               value={body}
             />
