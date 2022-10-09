@@ -34,7 +34,9 @@ export default function Posts() {
       <div className={className.container}>
         {posts?.map((post: Post) => (
           <div className={className.card} key={post.id}>
-            <p className={className.title}>{truncate(post.title, 20)}</p>
+            <p className={className.title} title={post.title}>
+              {truncate(post.title, 20)}
+            </p>
             {allUsers && (
               <p className={className.author}>
                 by {getUserName(allUsers, post.userId)}
