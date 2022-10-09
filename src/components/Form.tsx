@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode } from "react";
+import { ReactNode } from "react";
 
 const className = {
   form: "flex flex-col m-2"
@@ -7,13 +7,9 @@ const className = {
 interface FormProps {
   classname?: string;
   children: ReactNode;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  [key: string]: any;
 }
 
-export default function Form({ children, classname, onSubmit }: FormProps) {
-  return (
-    <form className={`${className.form} ${classname}`} onSubmit={onSubmit}>
-      {children}
-    </form>
-  );
+export default function Form({ children, classname }: FormProps) {
+  return <form className={`${className.form} ${classname}`}>{children}</form>;
 }

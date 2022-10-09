@@ -12,7 +12,9 @@ const className = {
   title: "font-bold text-center",
   author: "text-center from-neutral-400",
   body: "mx-2 my-2 text-sm flex-1",
-  postPageLink: "text-sm",
+  btnsDateContainer: "flex justify-between",
+  btnsContainer: "flex",
+  editBtn: "text-xs",
   date: "text-xs italic items-center flex"
 };
 
@@ -42,9 +44,9 @@ export default function Posts() {
             <p className={className.body} title={post.body}>
               {truncate(post.body, 50)}
             </p>
-            <div className="flex justify-between">
+            <div className={className.btnsDateContainer}>
               <Link to={`/posts/${post.id}`}>
-                <button className={className.postPageLink}>View post</button>
+                <button className={className.editBtn}>Edit</button>
               </Link>
               {post?.date && (
                 <span className={className.date}>{formatDate(post?.date)}</span>

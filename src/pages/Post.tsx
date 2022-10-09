@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { Button, Form, Input } from "../components";
-import { useGetPostQuery, useUpdatePostMutation } from "../app/services/posts";
+import {
+  useDeletePostMutation,
+  useGetPostQuery,
+  useUpdatePostMutation
+} from "../app/services/posts";
 import { getUserName } from "../utils";
 import { selectAllUsers } from "./Users/usersSlice";
 
@@ -20,11 +24,13 @@ interface PostProps {
 
 export default function Post({ use }: PostProps) {
   const { postId } = useParams();
+  const numPostId = Number(postId);
   const navigate = useNavigate();
 
   const allUsers = useSelector(selectAllUsers);
-  const { data: post } = useGetPostQuery(Number(postId));
+  const { data: post } = useGetPostQuery(numPostId);
   const [updatePost] = useUpdatePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const [editPost, setEditPost] = useState({ title: "", body: "" });
 
@@ -37,12 +43,12 @@ export default function Post({ use }: PostProps) {
 
   const buttonDisabled = Boolean(!title || !body);
 
-  const handleSumbit = async (e: FormEvent<HTMLFormElement>) => {
+  const handlePostUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (buttonDisabled) return;
 
-    await updatePost({ id: Number(postId), title, body });
+    await updatePost({ id: numPostId, title, body });
     navigate("/posts");
   };
 
@@ -50,12 +56,17 @@ export default function Post({ use }: PostProps) {
     setEditPost((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handlePostDelete = () => {
+    deletePost(numPostId);
+    navigate("/posts");
+  };
+
   if (post)
     return (
       <>
         <h1 className={className.pageHeader}>{use} post</h1>
         <div className={className.container}>
-          <Form classname={className.form} onSubmit={handleSumbit}>
+          <Form classname={className.form}>
             <Input
               label="title"
               name="title"
@@ -75,7 +86,12 @@ export default function Post({ use }: PostProps) {
               textarea
               value={body}
             />
-            <Button disabled={buttonDisabled} label={`${use} post`} />
+            <Button
+              disabled={buttonDisabled}
+              label={`${use} post`}
+              onClick={handlePostUpdate}
+            />
+            <Button label="Delete post" onClick={handlePostDelete} />
           </Form>
         </div>
       </>
