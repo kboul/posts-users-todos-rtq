@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Posts, Users & Todos
+
+Dive in all the concepts of redux's toolkit RTQ query
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

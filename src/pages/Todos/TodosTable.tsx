@@ -1,13 +1,17 @@
 import { ChangeEvent } from "react";
+
 import Todo from "./model";
-import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todosSlice";
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation
+} from "../../app/services/todos";
 
 interface TodosTableProps {
   todos: Todo[];
 }
 
 const className = {
-  tableWrapper: "overflow-x-auto relative",
+  tableContainer: "overflow-x-auto relative mb-4",
   table: "w-full text-sm text-left text-gray-500 dark:text-gray-400",
   thead:
     "text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400",
@@ -16,6 +20,7 @@ const className = {
   tbodyTr: "bg-white border-b dark:bg-gray-800 dark:border-gray-700",
   inputTd: "flex justify-center items-center",
   input: "w-4 h-4",
+  buttonTd: "pr-2",
   deleteButton:
     "flex w-full justify-center text-white text-sm px-4 py-2 border rounded-2xl text-center bg-blue-300 hover:bg-blue-400"
 };
@@ -35,7 +40,7 @@ export default function TodosTable({ todos }: TodosTableProps) {
     deleteTodo({ id: todoId });
 
   return (
-    <div className={className.tableWrapper}>
+    <div className={className.tableContainer}>
       <table className={className.table}>
         <thead className={className.thead}>
           <tr>
@@ -58,7 +63,7 @@ export default function TodosTable({ todos }: TodosTableProps) {
                   onChange={(e) => handleCompletedChange(e, todo)}
                 />
               </td>
-              <td>
+              <td className={className.buttonTd}>
                 <button
                   className={className.deleteButton}
                   onClick={handleDeleteClick(todo.id)}>
