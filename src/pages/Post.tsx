@@ -15,7 +15,7 @@ import { selectAllUsers } from "./Users/usersSlice";
 const className = {
   pageHeader: "flex justify-center font-bold text-xl mt-4",
   container: "flex justify-center",
-  form: "w-3/12"
+  form: "w-6/12"
 };
 
 interface PostProps {
