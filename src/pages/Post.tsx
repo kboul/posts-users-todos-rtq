@@ -15,7 +15,9 @@ import { selectAllUsers } from "./Users/usersSlice";
 const className = {
   pageHeader: "flex justify-center font-bold text-xl mt-4",
   container: "flex justify-center",
-  form: "w-6/12"
+  form: "w-6/12",
+  buttonContainer: "flex justify-between",
+  button: "w-4/12"
 };
 
 interface PostProps {
@@ -37,8 +39,7 @@ export default function Post({ use }: PostProps) {
   const { title, body } = editPost;
 
   useEffect(() => {
-    if (!post) return;
-    setEditPost({ title: post.title, body: post.body });
+    if (post) setEditPost({ title: post.title, body: post.body });
   }, [post]);
 
   const buttonDisabled = Boolean(!title || !body);
@@ -86,12 +87,19 @@ export default function Post({ use }: PostProps) {
               textarea
               value={body}
             />
-            <Button
-              disabled={buttonDisabled}
-              label={`${use} post`}
-              onClick={handlePostUpdate}
-            />
-            <Button label="Delete post" onClick={handlePostDelete} />
+            <div className={className.buttonContainer}>
+              <Button
+                classname={className.button}
+                disabled={buttonDisabled}
+                label={`${use} post`}
+                onClick={handlePostUpdate}
+              />
+              <Button
+                classname={className.button}
+                label="Delete post"
+                onClick={handlePostDelete}
+              />
+            </div>
           </Form>
         </div>
       </>

@@ -4,13 +4,18 @@ const className = {
 };
 
 interface ButtonProps {
+  classname?: string;
   label: string;
   [key: string]: any;
 }
 
-export default function Button({ label, ...otherProps }: ButtonProps) {
+export default function Button({
+  classname,
+  label,
+  ...otherProps
+}: ButtonProps) {
   return (
-    <button className={className.button} {...otherProps}>
+    <button className={`${className.button} ${classname}`} {...otherProps}>
       {label}
     </button>
   );
