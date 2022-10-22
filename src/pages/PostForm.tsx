@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Button, Form, Input } from "../components";
 import {
+  useAddPostMutation,
   useDeletePostMutation,
   useGetPostQuery,
   useUpdatePostMutation
@@ -20,17 +21,20 @@ const className = {
   button: "w-4/12"
 };
 
-interface PostProps {
+interface PostFormProps {
   use: string;
 }
 
-export default function Post({ use }: PostProps) {
+export default function PostForm({ use }: PostFormProps) {
   const { postId } = useParams();
   const numPostId = Number(postId);
   const navigate = useNavigate();
 
+  const isEditPost = use === "Edit";
+
   const allUsers = useSelector(selectAllUsers);
-  const { data: post } = useGetPostQuery(numPostId);
+  const { data: post } = useGetPostQuery(numPostId, { skip: !isEditPost });
+  const [addPost] = useAddPostMutation();
   const [updatePost] = useUpdatePostMutation();
   const [deletePost] = useDeletePostMutation();
 
@@ -44,12 +48,21 @@ export default function Post({ use }: PostProps) {
 
   const buttonDisabled = Boolean(!title || !body);
 
-  const handlePostUpdate = async (e: FormEvent<HTMLFormElement>) => {
+  const handlePostAddUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (buttonDisabled) return;
 
-    await updatePost({ id: numPostId, title, body });
+    isEditPost
+      ? await updatePost({ id: numPostId, title, body })
+      : await addPost({
+          title,
+          body,
+          userId: 2,
+          id: Math.floor(Math.random() * 1001),
+          date: new Date().toISOString()
+        });
+
     navigate("/posts");
   };
 
@@ -62,47 +75,49 @@ export default function Post({ use }: PostProps) {
     navigate("/posts");
   };
 
-  if (post)
-    return (
-      <>
-        <h1 className={className.pageHeader}>{use} post</h1>
-        <div className={className.container}>
-          <Form classname={className.form}>
-            <Input
-              label="title"
-              name="title"
-              onChange={handleChange}
-              value={title}
-            />
+  return (
+    <>
+      <h1 className={className.pageHeader}>{use} post</h1>
+      <div className={className.container}>
+        <Form classname={className.form}>
+          <Input
+            label="title"
+            name="title"
+            onChange={handleChange}
+            value={title}
+          />
+          {isEditPost && post && (
             <Input
               disabled
               label="author"
               onChange={() => {}}
               value={getUserName(allUsers, post.userId) ?? ""}
             />
-            <Input
-              label="content"
-              name="body"
-              onChange={handleChange}
-              textarea
-              value={body}
+          )}
+          <Input
+            label="content"
+            name="body"
+            onChange={handleChange}
+            textarea
+            value={body}
+          />
+          <div className={className.buttonContainer}>
+            <Button
+              classname={className.button}
+              disabled={buttonDisabled}
+              label={`${use} post`}
+              onClick={handlePostAddUpdate}
             />
-            <div className={className.buttonContainer}>
-              <Button
-                classname={className.button}
-                disabled={buttonDisabled}
-                label={`${use} post`}
-                onClick={handlePostUpdate}
-              />
+            {isEditPost && (
               <Button
                 classname={className.button}
                 label="Delete post"
                 onClick={handlePostDelete}
               />
-            </div>
-          </Form>
-        </div>
-      </>
-    );
-  return null;
+            )}
+          </div>
+        </Form>
+      </div>
+    </>
+  );
 }
