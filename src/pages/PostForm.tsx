@@ -1,9 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Form, Input } from "../components";
+import { Button, Form, Input, Select } from "../components";
 import {
   useAddPostMutation,
   useDeletePostMutation,
@@ -11,7 +10,7 @@ import {
   useUpdatePostMutation
 } from "../app/services/posts";
 import { getUserName } from "../utils";
-import { selectAllUsers } from "./Users/usersSlice";
+import { useGetUsersQuery } from "./Users/usersSlice";
 
 const className = {
   pageHeader: "flex justify-center font-bold text-xl mt-4",
@@ -32,7 +31,7 @@ export default function PostForm({ use }: PostFormProps) {
 
   const isEditPost = use === "Edit";
 
-  const allUsers = useSelector(selectAllUsers);
+  const { data: users } = useGetUsersQuery();
   const { data: post } = useGetPostQuery(numPostId, { skip: !isEditPost });
   const [addPost] = useAddPostMutation();
   const [updatePost] = useUpdatePostMutation();
@@ -75,27 +74,29 @@ export default function PostForm({ use }: PostFormProps) {
     navigate("/posts");
   };
 
+  const inputLabel = `${isEditPost ? use : "Enter a new"}`;
+
   return (
     <>
       <h1 className={className.pageHeader}>{use} post</h1>
       <div className={className.container}>
         <Form classname={className.form}>
           <Input
-            label="title"
+            label={`${inputLabel} title`}
             name="title"
             onChange={handleChange}
             value={title}
           />
-          {isEditPost && post && (
-            <Input
-              disabled
-              label="author"
-              onChange={() => {}}
-              value={getUserName(allUsers, post.userId) ?? ""}
-            />
-          )}
+          <Select
+            options={{ data: users ?? [], key: "name" }}
+            label="Select author"
+            onChange={() => {}}
+            value={
+              isEditPost && post ? getUserName(users, post?.userId) ?? "" : ""
+            }
+          />
           <Input
-            label="content"
+            label={`${inputLabel} content`}
             name="body"
             onChange={handleChange}
             textarea
