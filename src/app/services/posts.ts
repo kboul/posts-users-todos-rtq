@@ -1,4 +1,4 @@
-import Post from "../../pages/Posts/model";
+import Post from "../../pages/PostsList/model";
 import { api } from "./app";
 
 export const postsApi = api.injectEndpoints({
@@ -9,7 +9,7 @@ export const postsApi = api.injectEndpoints({
         res.sort((a, b) => Date.parse(b.date) - Date.parse(a.date)),
       providesTags: (result = []) => [
         ...result.map(({ id }) => ({ type: "Post", id } as const)),
-        { type: "Post" as const, id: "LIST" }
+        { type: "Post", id: "LIST" }
       ]
     }),
     getPost: builder.query<Post, number>({
