@@ -1,4 +1,4 @@
-import Post from "../../pages/PostsList/model";
+import Post from "../../pages/Posts/PostsList/model";
 import { api } from "./app";
 
 export const postsApi = api.injectEndpoints({

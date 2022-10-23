@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { useGetPostsQuery } from "../../app/services/posts";
-import { Button } from "../../components";
-import { formatDate, getUserName, truncate } from "../../utils";
-import { useGetUsersQuery } from "../Users/usersSlice";
+import { useGetPostsQuery } from "../../../app/services/posts";
+import { Button } from "../../../components";
+import { formatDate, getUserName, truncate } from "../../../utils";
+import { useGetUsersQuery } from "../../Users/usersSlice";
 import Post from "./model";
 
 const className = {

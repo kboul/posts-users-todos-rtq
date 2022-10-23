@@ -1,6 +1,6 @@
 import { parseISO, formatDistanceToNow } from "date-fns";
 
-import User from "./pages/Users/model";
+import User from "./models";
 
 const truncate = (text: string, limit?: number): string => {
   const limitation = limit ?? 110;

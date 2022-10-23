@@ -2,16 +2,16 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-import { Button, Form, Input, Select } from "../components";
+import { Button, Form, Input, Select } from "../../components";
+import User from "../../models";
 import {
   useAddPostMutation,
   useDeletePostMutation,
   useGetPostQuery,
   useUpdatePostMutation
-} from "../app/services/posts";
-import { getUserName } from "../utils";
-import { useGetUsersQuery } from "./Users/usersSlice";
-import User from "./Users/model";
+} from "../../app/services/posts";
+import { getUserName } from "../../utils";
+import { useGetUsersQuery } from "../Users/usersSlice";
 
 const className = {
   pageHeader: "flex justify-center font-bold text-xl mt-4",
