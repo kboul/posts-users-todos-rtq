@@ -1,5 +1,5 @@
 interface SelectProps {
-  options: { data: any[]; key: string };
+  options: { data: any[]; option: string; value: string };
   label: string;
   [key: string]: any;
 }
@@ -16,8 +16,8 @@ export default function Select({ label, options, ...otherProps }: SelectProps) {
       <label className={className.label}>{label}</label>
       <select className={className.select} {...otherProps}>
         {options?.data.map((item) => (
-          <option key={item.name} value={item.name}>
-            {item.name}
+          <option key={item.name} value={item[options.value]}>
+            {item[options.option]}
           </option>
         ))}
       </select>

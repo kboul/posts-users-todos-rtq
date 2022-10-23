@@ -11,6 +11,7 @@ import {
 } from "../app/services/posts";
 import { getUserName } from "../utils";
 import { useGetUsersQuery } from "./Users/usersSlice";
+import User from "./Users/model";
 
 const className = {
   pageHeader: "flex justify-center font-bold text-xl mt-4",
@@ -37,15 +38,25 @@ export default function PostForm({ use }: PostFormProps) {
   const [updatePost] = useUpdatePostMutation();
   const [deletePost] = useDeletePostMutation();
 
-  const [editPost, setEditPost] = useState({ title: "", body: "" });
+  const userIdForEdit =
+    post &&
+    users?.find((user: User) => user.name === getUserName(users, post?.userId))
+      ?.id;
 
-  const { title, body } = editPost;
+  const [editPost, setEditPost] = useState({
+    title: "",
+    body: "",
+    userId: isEditPost ? userIdForEdit : users && users[0].id
+  });
+
+  const { title, body, userId } = editPost;
 
   useEffect(() => {
-    if (post) setEditPost({ title: post.title, body: post.body });
+    if (post)
+      setEditPost({ title: post.title, body: post.body, userId: post.userId });
   }, [post]);
 
-  const buttonDisabled = Boolean(!title || !body);
+  const buttonDisabled = Boolean(!title || !body || !userId);
 
   const handlePostAddUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,11 +64,11 @@ export default function PostForm({ use }: PostFormProps) {
     if (buttonDisabled) return;
 
     isEditPost
-      ? await updatePost({ id: numPostId, title, body })
+      ? await updatePost({ id: numPostId, title, body, userId: Number(userId) })
       : await addPost({
           title,
           body,
-          userId: 2,
+          userId: Number(userId),
           id: Math.floor(Math.random() * 1001),
           date: new Date().toISOString()
         });
@@ -88,12 +99,11 @@ export default function PostForm({ use }: PostFormProps) {
             value={title}
           />
           <Select
-            options={{ data: users ?? [], key: "name" }}
+            name="userId"
+            options={{ data: users ?? [], option: "name", value: "id" }}
             label="Select author"
-            onChange={() => {}}
-            value={
-              isEditPost && post ? getUserName(users, post?.userId) ?? "" : ""
-            }
+            onChange={handleChange}
+            value={userId}
           />
           <Input
             label={`${inputLabel} content`}
